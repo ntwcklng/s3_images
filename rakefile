@@ -1,0 +1,47 @@
+require 'gist'
+
+def execute(command)
+	system "#{command}"
+end
+
+CONFIG = {
+	:bucket => "glossbossimages",
+	:image_folder => "glossbossimages/",
+	:max_age => "31536000",
+	:bucket_url => "https://glossbossimages.s3.eu-central-1.amazonaws.com/"
+}
+
+desc "List Files in Dir and create a gist"
+task :ls do
+	puts "Listing all Files in ..."
+	get_dir = $stdin.gets.chomp
+	unless get_dir[-1, 1] == '/'
+		get_dir << "/"
+	end
+	list_dir = Dir["#{CONFIG[:image_folder]}#{get_dir}*"]
+	abort("Dir is empty") if list_dir.empty?
+	list_output = ""
+	list_dir.map!{ |file_name|
+		file_name.gsub! CONFIG[:image_folder], CONFIG[:bucket_url]
+		list_output << "![](#{file_name}) \n\n\n"
+	}
+	Gist.gist(list_output, :filename => "#{get_dir.gsub('/', '-')}.md", :open => true)
+end
+
+desc "Sync Files/Images with image bucket"
+task :sync do
+	puts "SYNC/ all Files"
+	execute("s3cmd sync --acl-public --exclude '.DS_Store' --add-header='Cache-Control:max-age=#{CONFIG[:max_age]}' #{CONFIG[:image_folder]} s3://#{CONFIG[:bucket]}")
+	puts "/SYNC all Files"
+end
+
+desc "Get Files"
+task :get do
+	puts "GET all Files"
+	execute("s3cmd get --recursive --skip-existing s3://#{CONFIG[:bucket]} #{CONFIG[:image_folder]}")
+	puts "/GET all Files"
+end
+
+desc "Default Task"
+task :default => [:get, :sync] do
+end
