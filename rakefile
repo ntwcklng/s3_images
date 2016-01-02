@@ -11,6 +11,11 @@ CONFIG = {
 	:bucket_url => "https://glossbossimages.s3.eu-central-1.amazonaws.com/"
 }
 
+desc "lss"
+task :lss do
+	list_dir = Dir.entries('')
+end
+
 desc "List Files in Dir and create a gist"
 task :ls do
 	puts "Listing all Files in ..."
@@ -18,7 +23,7 @@ task :ls do
 	unless get_dir[-1, 1] == '/'
 		get_dir << "/"
 	end
-	list_dir = Dir["#{CONFIG[:image_folder]}#{get_dir}*"]
+	list_dir = Dir["#{CONFIG[:image_folder]}#{get_dir}*"].sort
 	abort("Dir is empty") if list_dir.empty?
 	list_output = ""
 	list_dir.map!{ |file_name|
