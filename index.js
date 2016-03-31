@@ -32,6 +32,7 @@ function createMarkdownImage(url, dir) {
 function parseDir(dir) {
   return new Promise((res, req) => {
     fs.readdir(dirPrefix + dir, (err, data) => {
+      if(err) throw err
       res(data)
     })
     getDir.close()
@@ -40,18 +41,23 @@ function parseDir(dir) {
 function askForDir() {
   getDir.question("Enter Dir: [name/dir] \n", (dir) => {
     parseDir(dir).then((data) => {
-      data.map((file) => {
-        files = files + createMarkdownImage(file, dir)
+      return new Promise((res, req) => {
+        data.map((file) => {
+          files = files + createMarkdownImage(file, dir)
+        })
+        res(files)
       })
+    }).then((content) => {
       github.gists.create({
         "description": "glossboss img",
         "public": false,
         "files": {
           "images.md": {
-            "content": files
+            "content": content
           }
         }
       }, (err, res) => {
+        if(err) throw err;
         console.log(res.html_url);
       })
     })
