@@ -11,11 +11,6 @@ CONFIG = {
 	:bucket_url => "https://glossbossimages.s3.eu-central-1.amazonaws.com/"
 }
 
-desc "lss"
-task :lss do
-	list_dir = Dir.entries('')
-end
-
 desc "List Files in Dir and create a gist"
 task :ls do
 	puts "Listing all Files in ..."
@@ -48,5 +43,5 @@ task :get do
 end
 
 desc "Default Task"
-task :default => [:get, :sync] do
+task :default => [:sync] do
 end
