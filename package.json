@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/ntwcklng/s3_images#readme",
   "dependencies": {
-    "github": "^0.2.4"
+    "github": "^0.2.4",
+    "open": "0.0.5"
   }
 }

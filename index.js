@@ -3,6 +3,7 @@
 const fs = require("fs")
 const readline = require("readline")
 const gh = require("github")
+const open = require("open")
 
 const dirPrefix = "glossbossimages/"
 const urlPrefix = "https://glossbossimages.s3.eu-central-1.amazonaws.com/"
@@ -43,6 +44,7 @@ function askForDir() {
     parseDir(dir).then((data) => {
       return new Promise((res, req) => {
         data.map((file) => {
+          if(file.indexOf("DS_Store") > -1) return;
           files = files + createMarkdownImage(file, dir)
         })
         res(files)
@@ -58,7 +60,8 @@ function askForDir() {
         }
       }, (err, res) => {
         if(err) throw err;
-        console.log(res.html_url);
+        console.log(res.html_url)
+        open(res.html_url)
       })
     })
   })
