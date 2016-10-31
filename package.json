@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "sync": "s3cmd sync --acl-public --exclude '.DS_Store' --add-header='Cache-Control:max-age=31536000' glossbossimages/ s3://glossbossimages"
   },
   "repository": {
     "type": "git",

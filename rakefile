@@ -1,3 +1,6 @@
+# DEPRECATED! USE: NPM RUN SYNC
+
+
 require 'gist'
 
 def execute(command)
