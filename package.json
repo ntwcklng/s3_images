@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "sync": "s3cmd sync --acl-public --exclude '.DS_Store' --add-header='Cache-Control:max-age=31536000' glossbossimages/ s3://glossbossimages"
+    "sync": "s3cmd sync --acl-public --exclude '.DS_Store' --add-header='Cache-Control:max-age=31536000' glossbossimages/ s3://glossbossimages",
+    "get": "s3cmd get --recursive --skip-existing s3://glossbossimages glossbossimages"
   },
   "repository": {
     "type": "git",
