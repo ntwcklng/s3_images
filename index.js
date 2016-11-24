@@ -1,19 +1,19 @@
 'use strict'
 
-const fs = require("fs")
-const readline = require("readline")
-const gh = require("github")
-const open = require("open")
+const fs = require('fs')
+const readline = require('readline')
+const GH = require('github')
+const open = require('open')
 
-const dirPrefix = "glossbossimages/"
-const urlPrefix = "https://glossbossimages.s3.eu-central-1.amazonaws.com/"
+const dirPrefix = 'glossbossimages/'
+const urlPrefix = 'https://glossbossimages.s3.eu-central-1.amazonaws.com/'
 let files = ''
 
-const github = new gh({
-  version: "3.0.0"
+const Github = new GH({
+  version: '3.0.0'
 })
-github.authenticate({
-  type: "oauth",
+Github.authenticate({
+  type: 'oauth',
   token: process.env.GIST_TOKEN
 })
 
@@ -22,46 +22,46 @@ const getDir = readline.createInterface({
   output: process.stdout
 })
 
-function createMarkdownImage(url, dir) {
+function createMarkdownImage (url, dir) {
   dir = String(dir)
-  if(dir[dir.length - 1] !== "/") {
-    dir += "/"
+  if (dir[dir.length - 1] !== '/') {
+    dir += '/'
   }
   return `![](${urlPrefix + dir + url}) \n\n`
 }
 
-function parseDir(dir) {
-  return new Promise((res, req) => {
+function parseDir (dir) {
+  return new Promise((resolve, reject) => {
     fs.readdir(dirPrefix + dir, (err, data) => {
-      if(err) throw err
-      res(data)
+      if (err) throw err
+      resolve(data)
     })
     getDir.close()
   })
 }
-function askForDir() {
-  getDir.question("Enter Dir: [name/dir] \n", (dir) => {
+function askForDir () {
+  getDir.question('Enter Dir: [name/dir] \n', (dir) => {
     parseDir(dir).then((data) => {
-      return new Promise((res, req) => {
+      return new Promise((resolve, reject) => {
         data.map((file) => {
-          if(file.indexOf("DS_Store") > -1) return;
+          if (file.indexOf('DS_Store') > -1) return
           files = files + createMarkdownImage(file, dir)
         })
-        res(files)
+        resolve(files)
       })
     }).then((content) => {
-      github.gists.create({
-        "description": "glossboss img",
-        "public": false,
-        "files": {
-          "images.md": {
-            "content": content
+      Github.gists.create({
+        'description': 'glossboss img',
+        'public': false,
+        'files': {
+          'images.md': {
+            'content': content
           }
         }
-      }, (err, res) => {
-        if(err) throw err;
-        console.log(res.html_url)
-        open(res.html_url)
+      }, (err, result) => {
+        if (err) throw err
+        console.log(result.html_url)
+        open(result.html_url)
       })
     })
   })
