@@ -18,7 +18,8 @@ function createPrompt (name, message, choices, cb) {
       type: 'list',
       name,
       message,
-      choices
+      choices,
+      pageSize: 20
     }
   ]).then((answers) => cb(answers))
 }
@@ -38,17 +39,10 @@ function createMarkdownImage (url, dir) {
   }
   return `![](${urlPrefix + dir + url}) \n\n`
 }
-/**
- * Step 1 - read the root folder
- * Step 2 - strip any files and prompt for the root folder
- * Step 3 - ask for the imagefolder
- */
 
-// Step 1
 readDir(rootFolder)
 .then((files) => {
-  // remove root files and only list folders
-  // Step 2
+  // remove root files (images) and only list folders in the prompt
   const rootFolders = files.filter((dir) => dir.indexOf('.') === -1)
 
   // ask for the root folder
@@ -56,7 +50,7 @@ readDir(rootFolder)
     const selectedRootFolder = rootFolder + answer.rootfolder
     readDir(selectedRootFolder)
     .then((imageFolders) => {
-      // Step 3
+      // with the selected glossboss, ask for the image folder
       createPrompt('imagefolder', 'Select an image folder', imageFolders, (answer) => {
         const selectedImageFolder = selectedRootFolder + '/' + answer.imagefolder
         readDir(selectedImageFolder)
@@ -69,7 +63,6 @@ readDir(rootFolder)
             })
             resolve(files)
           }).then((content) => {
-            console.log(content)
             gh.gists.create({
               'description': 'glossboss img',
               'public': false,
