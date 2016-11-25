@@ -22,6 +22,7 @@
   "dependencies": {
     "github": "^0.2.4",
     "gm": "^1.22.0",
+    "inquirer": "^1.2.3",
     "open": "0.0.5"
   },
   "devDependencies": {

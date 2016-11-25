@@ -2,17 +2,17 @@
 
 const fs = require('fs')
 const readline = require('readline')
-const GH = require('github')
+const Github = require('github')
 const open = require('open')
 
 const dirPrefix = 'glossbossimages/'
 const urlPrefix = 'https://glossbossimages.s3.eu-central-1.amazonaws.com/'
 let files = ''
 
-const Github = new GH({
+const gh = new Github({
   version: '3.0.0'
 })
-Github.authenticate({
+gh.authenticate({
   type: 'oauth',
   token: process.env.GIST_TOKEN
 })
@@ -50,7 +50,7 @@ function askForDir () {
         resolve(files)
       })
     }).then((content) => {
-      Github.gists.create({
+      gh.gists.create({
         'description': 'glossboss img',
         'public': false,
         'files': {
