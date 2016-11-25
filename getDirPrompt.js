@@ -38,15 +38,26 @@ function createMarkdownImage (url, dir) {
   }
   return `![](${urlPrefix + dir + url}) \n\n`
 }
+/**
+ * Step 1 - read the root folder
+ * Step 2 - strip any files and prompt for the root folder
+ * Step 3 - ask for the imagefolder
+ */
 
+// Step 1
 readDir(rootFolder)
 .then((files) => {
+  // remove root files and only list folders
+  // Step 2
   const rootFolders = files.filter((dir) => dir.indexOf('.') === -1)
-  createPrompt('rootfolder', 'Select a root folder', rootFolders, (answer) => {
+
+  // ask for the root folder
+  createPrompt('rootfolder', 'Select a Glossboss', rootFolders, (answer) => {
     const selectedRootFolder = rootFolder + answer.rootfolder
     readDir(selectedRootFolder)
     .then((imageFolders) => {
-      createPrompt('imagefolder', 'Select a image folder', imageFolders, (answer) => {
+      // Step 3
+      createPrompt('imagefolder', 'Select an image folder', imageFolders, (answer) => {
         const selectedImageFolder = selectedRootFolder + '/' + answer.imagefolder
         readDir(selectedImageFolder)
         .then((data) => {
