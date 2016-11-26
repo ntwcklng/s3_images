@@ -41,6 +41,7 @@ function createMarkdownImage (url, dir) {
   }
   return `![](${urlPrefix + dir + url}) \n\n`
 }
+
 function generateGist (data, selectedImageFolder) {
   return new Promise((resolve, reject) => {
     let files = ''
@@ -66,6 +67,7 @@ function generateGist (data, selectedImageFolder) {
     })
   })
 }
+
 function getImages (dir) {
   // with the selected glossboss, ask for the image folder
   readDir(dir).then((files) => {
