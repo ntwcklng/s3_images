@@ -4,7 +4,6 @@ const fs = require('fs')
 const inquirer = require('inquirer')
 const Github = require('github')
 const open = require('open')
-const ui = new inquirer.ui.BottomBar()
 const urlPrefix = 'https://glossbossimages.s3.eu-central-1.amazonaws.com/'
 const rootFolder = 'glossbossimages/'
 const gh = new Github({
@@ -14,9 +13,7 @@ gh.authenticate({
   type: 'oauth',
   token: process.env.GIST_TOKEN
 })
-function updateBottomBar (currentDir) {
-  ui.updateBottomBar(`You are here: ${currentDir}`)
-}
+
 function createPrompt (name, message, choices, cb) {
   inquirer.prompt([
     {
@@ -70,7 +67,6 @@ function generateGist (data, selectedImageFolder) {
   })
 }
 function getImages (dir) {
-  updateBottomBar(dir)
   // with the selected glossboss, ask for the image folder
   readDir(dir).then((files) => {
     // when the first file is a dir, ask for the subfolder
@@ -93,7 +89,6 @@ function start () {
     createPrompt('rootfolder', 'Select a Glossboss', rootFolders, (answer) => {
       getImages(rootFolder + answer.rootfolder)
     })
-    ui.log.write('You are here: ' + rootFolder)
   })
 }
 
