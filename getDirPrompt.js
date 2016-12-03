@@ -1,4 +1,4 @@
-const DEBUG = true
+const DEBUG = false
 
 const fs = require('fs')
 const inquirer = require('inquirer')
