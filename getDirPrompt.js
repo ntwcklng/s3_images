@@ -73,7 +73,11 @@ function getImages (dir) {
   readDir(dir).then((files) => {
     // when the first file is a dir, ask for the subfolder
     // because then i assume there are more subfolders
-    if (fs.lstatSync(dir + '/' + files[0]).isDirectory()) {
+    let firstFile = files[0]
+    if (files[0] === '.DS_Store') {
+      firstFile = files[1]
+    }
+    if (fs.lstatSync(dir + '/' + firstFile).isDirectory()) {
       return createPrompt('subfolder', 'Select a Subfolder', files, (answer) => {
         getImages(dir + '/' + answer.subfolder)
       })
