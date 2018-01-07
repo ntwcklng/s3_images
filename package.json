@@ -20,12 +20,13 @@
   },
   "homepage": "https://github.com/ntwcklng/s3_images#readme",
   "dependencies": {
-    "github": "^0.2.4",
-    "gm": "^1.22.0",
-    "inquirer": "^1.2.3",
+    "github": "^13.1.0",
+    "gm": "^1.23.1",
+    "inquirer": "^4.0.2",
     "open": "0.0.5"
   },
-  "devDependencies": {
-    "standard": "^8.6.0"
+    "prettier": {
+    "semi": false,
+    "singleQuote": true
   }
 }
