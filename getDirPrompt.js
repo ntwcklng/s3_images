@@ -71,8 +71,8 @@ function generateGist(data, selectedImageFolder) {
       },
       (err, result) => {
         if (err) throw err
-        console.log(result.html_url)
-        open(result.html_url)
+        console.log(result.data.html_url)
+        open(result.data.html_url)
       }
     )
   })

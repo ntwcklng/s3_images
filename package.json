@@ -22,10 +22,10 @@
   "dependencies": {
     "github": "^13.1.0",
     "gm": "^1.23.1",
-    "inquirer": "^4.0.2",
+    "inquirer": "^5.0.0",
     "open": "0.0.5"
   },
-    "prettier": {
+  "prettier": {
     "semi": false,
     "singleQuote": true
   }
