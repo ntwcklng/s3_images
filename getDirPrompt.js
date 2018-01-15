@@ -1,3 +1,4 @@
+require('dotenv').config()
 const DEBUG = false
 
 const fs = require('fs')
