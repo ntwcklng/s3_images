@@ -23,7 +23,7 @@
     "dotenv": "^4.0.0",
     "github": "^13.1.0",
     "gm": "^1.23.1",
-    "inquirer": "^5.0.0",
+    "inquirer": "^5.0.1",
     "open": "0.0.5"
   },
   "prettier": {
